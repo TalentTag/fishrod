@@ -1,0 +1,14 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: fishrod_dev
+
+production:
+  <<: *default
+  database: fishrod_db
+  username: fisherman
+  password: <%= ENV['FISHROD_DATABASE_PASSWORD'] %>
