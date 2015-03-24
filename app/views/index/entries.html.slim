@@ -1,0 +1,12 @@
+.row
+  .medium-2.columns
+    ul
+      - sources.each do |source|
+        li = link_to source, entries_path(source: source)
+
+  .medium-10.columns
+    - @entries.each do |entry|
+      .entry
+        p = link_to entry.url, entry.url
+        p #{ entry.body[0..300].strip.html_safe }...
+        hr
