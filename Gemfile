@@ -17,4 +17,8 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'foundation-rails'
 
-gem 'spring', group: :development
+group :development do
+  gem 'spring'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end

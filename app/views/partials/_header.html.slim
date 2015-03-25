@@ -1,0 +1,9 @@
+nav.top-bar data-topbar=true role="navigation"
+  ul.title-area
+    li.name
+      h1: a href=root_path #FISHROD
+  section.top-bar-section
+    ul.left
+      - sources.each do |source|
+        li class="#{ 'active' if params[:source] == source }"
+          = link_to source, entries_path(source: source)
