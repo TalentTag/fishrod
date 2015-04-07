@@ -1,7 +1,7 @@
 class Entry < ActiveRecord::Base
 
   scope :by_source, ->(source){ where(source: source) }
-  default_scope ->{ limit(20) }
+  default_scope ->{ order(created_at: :desc) }
 
   validate :unique_body
 

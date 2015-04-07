@@ -6,6 +6,7 @@ gem 'pg'
 gem 'thin'
 gem 'pry-rails'
 gem 'slim-rails'
+gem 'russian'
 
 gem 'vkontakte_api', '~> 1.4'
 gem 'fb_graph'
