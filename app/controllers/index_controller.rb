@@ -6,4 +6,8 @@ class IndexController < ApplicationController
     @entries = params[:source].present? ? Entry.by_source(params[:source]).limit(ENTRIES_LIMIT) : Entry.limit(ENTRIES_LIMIT)
   end
 
+  def details
+    @entry = Entry.find_by! id: params[:id]    
+  end
+
 end
