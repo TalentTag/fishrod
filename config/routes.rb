@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
 
-  root to: "index#entries"
+  root to: "entries#index"
 
-  scope :entries do
-    get ':id' => 'index#details', as: :details, constraints: { id: /\d+/ }
-    get ':source' => 'index#entries', as: :entries
+  resources :entries, only: %i(index show) do
+    collection { get 'sources/(:source)' => 'entries#index', as: '' }
   end
 
 end

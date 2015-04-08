@@ -7,7 +7,7 @@ class Strategies::Vk
       entry = Entry.new({
         body: entry.text,
         url: "https://vk.com/wall#{ entry.owner_id }_#{ entry.id }",
-        source: 'vk',
+        source_id: SourceMap.all[:vk],
         author: entry.user || entry.group,
         created_at: entry.date,
         fetched_at: Time.now

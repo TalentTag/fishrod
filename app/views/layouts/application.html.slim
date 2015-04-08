@@ -6,7 +6,12 @@ html
     = javascript_include_tag :application
     = csrf_meta_tags
 
+    javascript:
+      FishRod = window.FishRod || {};
+      FishRod.current_location = '#{ request.path }';
+
   body
     = render partial: "partials/header"
-    #wrapper
-      = yield
+    .row#wrapper
+      .medium-12.columns
+        = yield

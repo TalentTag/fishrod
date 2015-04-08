@@ -1,29 +1,33 @@
 class Fetch < Thor
 
+  require File.expand_path("config/environment.rb") unless defined?(Rails)
+
+
   desc "vk", "fetch data from VK"
-  def vk
-    init!
+  def vk skip_index=false
     Strategies::Vk.fetch
+    reindex! unless skip_index
   end
 
   desc "facebook", "fetch data from Facebook"
-  def facebook
-    init!
+  def facebook skip_index=false
     Strategies::Facebook.fetch
+    reindex! unless skip_index
   end
 
 
   desc "all", "fetch entries"
   def all
-    vk && facebook
+    vk(:skip_index) && facebook(:skip_index)
+    reindex!
   end
   default_task :all
 
 
   private
 
-  def init!
-    require File.expand_path("config/environment.rb") unless defined?(Rails)
+  def reindex!
+    system "bundle exec rake ts:index"
   end
 
 end

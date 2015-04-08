@@ -1,0 +1,4 @@
+.entry
+  p.right = Russian::strftime @entry.created_at, '%e %B, %H:%M'
+  p = link_to @entry.url, @entry.url, target: '_blank'
+  p == @entry.body

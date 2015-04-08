@@ -5,5 +5,5 @@ nav.top-bar data-topbar=true role="navigation"
   section.top-bar-section
     ul.left
       - sources.each do |source|
-        li class="#{ 'active' if params[:source] == source }"
+        li class="#{ 'active' if params[:source] == source.to_s }"
           = link_to source, entries_path(source: source)

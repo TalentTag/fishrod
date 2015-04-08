@@ -10,3 +10,5 @@ assets_manifest.json
 config/database.yml
 *.swp
 dump.rdb
+db/sphinx/*
+config/development.sphinx.conf

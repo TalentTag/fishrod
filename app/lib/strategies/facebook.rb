@@ -7,7 +7,7 @@ class Strategies::Facebook
       entry = Entry.new({
         body: entry['message'],
         url: "https://www.facebook.com/#{ owner_id }/posts/#{ post_id }",
-        source: 'facebook',
+        source_id: SourceMap.all[:facebook],
         author: entry['from'],
         created_at: entry['created_time'],
         fetched_at: Time.now

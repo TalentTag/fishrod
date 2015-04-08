@@ -11,6 +11,8 @@ gem 'russian'
 gem 'vkontakte_api', '~> 1.4'
 gem 'fb_graph'
 gem 'whenever'
+gem 'thinking-sphinx', '~> 3.1.3'
+gem 'mysql2' # thinking-sphinx dependency
 
 gem 'quiet_assets'
 gem 'sass-rails', '~> 4.0.3'

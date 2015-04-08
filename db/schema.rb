@@ -11,19 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150324150320) do
+ActiveRecord::Schema.define(version: 20150408104704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "entries", force: true do |t|
-    t.text     "body",       null: false
-    t.string   "url",        null: false
-    t.string   "source",     null: false
+    t.text     "body",                       null: false
+    t.string   "url",                        null: false
     t.json     "author"
     t.json     "raw_data"
     t.datetime "created_at"
     t.datetime "fetched_at"
+    t.string   "state",      default: "new", null: false
+    t.integer  "source_id",                  null: false
   end
 
 end
