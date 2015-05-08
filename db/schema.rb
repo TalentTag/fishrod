@@ -17,14 +17,14 @@ ActiveRecord::Schema.define(version: 20150408104704) do
   enable_extension "plpgsql"
 
   create_table "entries", force: true do |t|
-    t.text     "body",                       null: false
-    t.string   "url",                        null: false
+    t.text     "body",                   null: false
+    t.string   "url",                    null: false
     t.json     "author"
     t.json     "raw_data"
     t.datetime "created_at"
     t.datetime "fetched_at"
-    t.string   "state",      default: "new", null: false
-    t.integer  "source_id",                  null: false
+    t.integer  "state",      default: 0, null: false
+    t.integer  "source_id",              null: false
   end
 
 end

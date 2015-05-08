@@ -9,7 +9,7 @@ class Entry < ActiveRecord::Base
   protected
 
   def unique_body
-    !Entry.exists?(body: body)
+    errors[:body] << "Body is non-unique" if Entry.exists?(body: body)
   end
 
 end
