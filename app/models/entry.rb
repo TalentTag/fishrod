@@ -1,9 +1,25 @@
 class Entry < ActiveRecord::Base
 
   scope :by_source, ->(source){ where(source: source) }
+  scope :processed, -> { where state: State::PROCESSED }
   default_scope ->{ order(created_at: :desc) }
 
   validate :unique_body
+
+  ENTRIES_PER_PAGE = 20
+  paginates_per ENTRIES_PER_PAGE
+
+
+  def self.query query, params={}
+    page = params[:page].presence.try(:to_i) || 1
+
+    options = { with: {}, excerpts: { around: 250 }, order: 'created_at DESC', per_page: ENTRIES_PER_PAGE }
+    options[:with][:state] = State::PROCESSED unless params[:skip_filter]
+
+    entries = Entry.search query, options
+    entries.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
+    entries.page(page)
+  end
 
 
   protected

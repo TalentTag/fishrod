@@ -8,6 +8,8 @@ defaults: &defaults
 staging:
   <<: *defaults
   indices_location: "/var/www/fishrod/shared/db/sphinx"
+  pid_file: "tmp/pids/searchd.pid"
 
 development:
   <<: *defaults
+  indices_location: "db/sphinx"

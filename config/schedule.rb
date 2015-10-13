@@ -4,4 +4,5 @@ job_type :thor, "cd #{path}; :environment_variable=:environment bundle exec thor
 
 every 5.minutes do
   thor "fetch"
+  thor "process"
 end

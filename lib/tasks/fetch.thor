@@ -8,20 +8,7 @@ class Fetch < Thor
     Strategies::Vk.fetch
     reindex! unless skip_index
   end
-
-  desc "facebook", "fetch data from Facebook"
-  def facebook skip_index=false
-    Strategies::Facebook.fetch
-    reindex! unless skip_index
-  end
-
-
-  desc "all", "fetch entries"
-  def all
-    vk(:skip_index) && facebook(:skip_index)
-    reindex!
-  end
-  default_task :all
+  default_task :vk
 
 
   private

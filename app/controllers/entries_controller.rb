@@ -1,13 +1,11 @@
 class EntriesController < ApplicationController
 
   def index
-    if params[:query]
-      options = { with: {}, excerpts: { around: 250 }, order: 'created_at DESC', per_page: 100 }
-      options[:with][:source_id] = SourceMap.all[params[:source].to_sym] if params[:source].present?
-      options[:with][:state] = 1 unless params[:skip_filter]
-
-      @entries = Entry.search params[:query], options
-      @entries.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
+    if params[:query].present?
+      @entries = Entry.query params[:query], page: params[:page], skip_filter: params[:skip_filter]
+    else
+      @entries = Entry.page(params[:page])
+      @entries = @entries.processed unless params[:skip_filter]
     end
     return render partial: 'partials/entries_list' if request.xhr?
   end
