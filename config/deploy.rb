@@ -1,39 +1,52 @@
+require 'mina/bundler'
+require 'mina/rails'
+require 'mina/git'
+require 'mina/rbenv'
+require 'mina/puma'
+require 'mina/whenever'
+
+set :domain, '159.203.102.151'
 set :application, 'fishrod'
-set :repo_url, 'git@github.com:TalentTag/fishrod.git'
-set :scm, :git
+set :user, 'rbdev'
+set :deploy_to, "/var/www/#{application}"
+set :repository, 'git@github.com:TalentTag/fishrod-sphinx.git'
+set :branch, 'master'
+set :forward_agent, true
 
-set :pty, true
-set :keep_releases, 5
-set :deploy_via, :remote_cache
-set :ssh_options, {
-  forward_agent: true,
-  auth_methods: %w(publickey)
-}
+set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log', 'tmp']
 
-set :linked_files, %w{config/database.yml}
-set :linked_dirs, %w{bin log tmp vendor/bundle public/system}
-
-set :rbenv_type, :user
-set :rbenv_ruby, File.read('.ruby-version').strip
-
-# set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
-# set :rbenv_map_bins, %w{rake gem bundle ruby rails}
-# set :rbenv_roles, :all # default value
-
-namespace :deploy do
-  after :publishing, :restart
-  after :restart, :cleanup
+task :environment do
+  invoke :'rbenv:load'
 end
 
 
-namespace :admin do
-  desc "Tail log file"
-  task :log do
-    on roles :app do
-      execute("tail", "-f #{shared_path}/log/#{ fetch :stage }.log") do |channel, stream, data|
-        puts "#{channel[:host]}: #{data}" if stream == :out
-        warn "[err :: #{channel[:server]}] #{data}" if stream == :err
-      end
+task setup: :environment do
+  queue %[mkdir -p "#{deploy_to}/#{shared_path}/log"]
+  queue %[mkdir -p "#{deploy_to}/#{shared_path}/config"]
+  queue %(mkdir -p "#{deploy_to}/#{shared_path}/tmp/sockets")
+  queue %(mkdir -p "#{deploy_to}/#{shared_path}/tmp/pids")
+  queue %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/log"]
+  queue %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/config"]
+  queue %(chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/tmp/sockets")
+  queue %(chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/tmp/pids")
+end
+
+
+task deploy: :environment do
+  to :before_hook do
+  end
+
+  deploy do
+    invoke :'git:clone'
+    invoke :'deploy:link_shared_paths'
+    invoke :'bundle:install'
+    invoke :'rails:db_migrate'
+    invoke :'rails:assets_precompile'
+    invoke :'deploy:cleanup'
+
+    to :launch do
+      invoke :'whenever:update'
+      invoke :'puma:phased_restart'
     end
   end
 end

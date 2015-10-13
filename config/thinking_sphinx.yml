@@ -5,7 +5,7 @@ defaults: &defaults
   indexed_models:
     - Entry
 
-staging:
+production:
   <<: *defaults
   indices_location: "/var/www/fishrod/shared/db/sphinx"
   pid_file: "tmp/pids/searchd.pid"

@@ -3,7 +3,7 @@
     .entry class="#{ 'unpublished' if entry.state==0 }"
       p.right = Russian::strftime entry.created_at, '%e %B, %H:%M'
       p = link_to entry.url, entry.url, target: '_blank'
-      p == entry.excerpts.body rescue entry.body
+      p == entry.excerpts.body rescue truncate(entry.body)
       .right = link_to 'ссылка ->', entry_path(entry), target: '_blank'
 - else
   p: b Ничего не найдено

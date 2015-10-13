@@ -5,7 +5,8 @@ class Fetch < Thor
 
   desc "vk", "fetch data from VK"
   def vk skip_index=false
-    Strategies::Vk.fetch
+    logger.info 'fetching: start'
+    entries = Strategies::Vk.fetch
     reindex! unless skip_index
   end
   default_task :vk
@@ -15,6 +16,10 @@ class Fetch < Thor
 
   def reindex!
     system "bundle exec rake ts:index"
+  end
+
+  def logger
+    @logger ||= Logger.new("#{ Rails.root }/log/thor.log")
   end
 
 end

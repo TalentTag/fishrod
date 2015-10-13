@@ -13,7 +13,7 @@ class Entry < ActiveRecord::Base
   def self.query query, params={}
     page = params[:page].presence.try(:to_i) || 1
 
-    options = { with: {}, excerpts: { around: 250 }, order: 'created_at DESC', per_page: ENTRIES_PER_PAGE }
+    options = { with: {}, excerpts: { around: 250 }, order: 'fetched_at DESC', per_page: ENTRIES_PER_PAGE }
     options[:with][:state] = State::PROCESSED unless params[:skip_filter]
 
     entries = Entry.search query, options
