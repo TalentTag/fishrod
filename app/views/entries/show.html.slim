@@ -1,4 +1,6 @@
 .entry
   p.right = Russian::strftime @entry.created_at, '%e %B, %H:%M'
   p = link_to @entry.url, @entry.url, target: '_blank'
-  p == @entry.body
+  p == simple_format @entry.body
+  - if @entry.raw_data.present?
+    pre = JSON.pretty_generate @entry.raw_data
