@@ -1,7 +1,15 @@
-input role="search-field" type="search" placeholder="Поиск" value="#{ params[:query] }"
-label
-  input> type="checkbox" name="skip_filter"
-  | Показывать отфильтрованные записи
-#entries-list = render partial: 'partials/entries_list'
+.panel
+  input role="search-field" type="search" placeholder="Поиск" value="#{ params[:query] }"
+
+.row
+  .large-9.columns
+    #entries-list = render partial: 'partials/entries_list'    
+  .large-3.columns
+    .panel
+      h5 Настройки выдачи
+      input role="datepicker" type="text" placeholder="Дата" value="#{ params[:date].try :strftime, '%M/%D/%Y' }"
+      label
+        input> type="checkbox" name="skip_filter"
+        | Показывать все
 
 a.button href="javascript:fetchMore()" Загрузить еще

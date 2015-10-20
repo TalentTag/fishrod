@@ -15,6 +15,10 @@ class Entry < ActiveRecord::Base
 
     options = { with: {}, excerpts: { around: 250 }, order: 'fetched_at DESC', per_page: ENTRIES_PER_PAGE }
     options[:with][:state] = State::PROCESSED unless params[:skip_filter]
+    if params[:date].present?
+      date = Date.parse params[:date]
+      options[:with][:fetched_at] = date.beginning_of_day..date.end_of_day
+    end
 
     entries = Entry.search query, options
     entries.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane

@@ -1,6 +1,7 @@
 #= require jquery
 #= require jquery_ujs
 #= require foundation
+#= require foundation-datepicker
 #= require_tree .
 
 
@@ -12,6 +13,7 @@ sendRequest = (options={}) ->
     data:
       query: $('[role=search-field]').val()
       skip_filter: 1 if $('[name=skip_filter]').is(':checked')
+      date: $('[role=datepicker]').val()
       page: page
     success: (reply) ->
       if options.append
@@ -28,5 +30,8 @@ $ ->
     page = 1
     sendRequest() if event.keyCode == 13
   $('[name=skip_filter]').change ->
+    page = 1
+    sendRequest()
+  $('[role=datepicker]').fdatepicker(language: 'ru', format: 'dd-mm-yyyy').on 'changeDate', ->
     page = 1
     sendRequest()
