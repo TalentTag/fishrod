@@ -19,4 +19,9 @@ class EntriesController < ApplicationController
     @entry = Entry.find_by! id: params[:id]
   end
 
+  def reject
+    Entry.find_by!(id: params[:id]).update state: State::REJECTED
+    render nothing: true, status: :no_content
+  end
+
 end

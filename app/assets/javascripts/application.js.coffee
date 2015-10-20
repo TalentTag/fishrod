@@ -35,3 +35,7 @@ $ ->
   $('[role=datepicker]').fdatepicker(language: 'ru', format: 'dd-mm-yyyy').on 'changeDate', ->
     page = 1
     sendRequest()
+
+  $('[role=reject-entry]').click ->
+    $.post "/entries/#{ $(@).data('id') }/reject", =>
+      $(@).parents('.entry').remove()

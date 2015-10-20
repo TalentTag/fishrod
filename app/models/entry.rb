@@ -4,7 +4,7 @@ class Entry < ActiveRecord::Base
   scope :processed, -> { where state: State::PROCESSED }
   default_scope ->{ order(created_at: :desc) }
 
-  validate :unique_body
+  validate :unique_body, on: :create
 
   ENTRIES_PER_PAGE = 20
   paginates_per ENTRIES_PER_PAGE

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   resources :entries, only: %i(index show) do
     collection { get 'sources/(:source)' => 'entries#index', as: '' }
+    member { post :reject }
   end
 
 end
