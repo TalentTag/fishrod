@@ -7,4 +7,8 @@ Rails.application.routes.draw do
     member { post :reject }
   end
 
+  namespace :stats do
+  	get :entries
+  end
+
 end

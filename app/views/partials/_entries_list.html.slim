@@ -1,6 +1,6 @@
 - if @entries.present?
   - @entries.each do |entry|
-    .entry class="#{ 'unpublished' if entry.state==0 }"
+    .entry class="#{ 'unpublished' if entry.state!=State::PROCESSED }"
       - if entry.state == State::PROCESSED
         h4.right.reject-entry = link_to '&times;'.html_safe, 'javascript:;', role: 'reject-entry', data: { id: entry.id }, title: 'Удалить запись из выдачи'
       ul.horizontal

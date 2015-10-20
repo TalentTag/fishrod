@@ -1,0 +1,31 @@
+h1
+  ' Статистика по записям
+  small = "Всего #{ @total_count }"
+
+- @months.each do |month|
+  - all_entries = @entries_counters.select { |entry| entry['month'] == month.to_s && entry['is_processed'] == 'f' }
+  - relevant_entries = @entries_counters.select { |entry| entry['month'] == month.to_s && entry['is_processed'] == 't' }
+  - if all_entries.any?
+    .row
+      .large-3.columns
+        h4 style="margin-top: 0" = Date::MONTHNAMES[month.to_i]
+        ' Релевантных:
+        = rec = relevant_entries.reduce(0) { |sum, entry| sum+entry['count'].to_i }
+        br
+        ' Всего записей:
+        = all_entries.reduce(0) { |sum, entry| sum+entry['count'].to_i } + rec
+
+      .large-9.columns
+        table.table.table-striped style="width: 100%"
+          tк
+            th width="20%"
+            th width="40%" Релевантных
+            th width="40%" Всего
+          - (1..Time.days_in_month(month, 2015)).each do |day|
+            - ae = all_entries.select { |entry| entry['date'] == "2015-#{ month }-#{ day }" }.first || {}
+            - re = relevant_entries.select { |entry| entry['date'] == "2015-#{ month }-#{ day }" }.first || {}
+            - if ae.present?
+              tr
+                td = Date.parse("2015-#{ month }-#{ day }").strftime('%d-%m-%Y')
+                td = re['count']
+                td = ae['count'].to_i + re['count'].to_i

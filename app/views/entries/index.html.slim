@@ -7,9 +7,10 @@
   .large-3.columns
     .panel
       h5 Настройки выдачи
-      input role="datepicker" type="text" placeholder="Дата" value="#{ params[:date].try :strftime, '%M/%D/%Y' }"
+      input role="datepicker" type="text" placeholder="Дата"
       label
         input> type="checkbox" name="skip_filter"
         | Показывать все
+    .panel = link_to "Статистика", stats_entries_path
 
 a.button href="javascript:fetchMore()" Загрузить еще
