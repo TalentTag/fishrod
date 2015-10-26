@@ -2,7 +2,7 @@ class Entry < ActiveRecord::Base
 
   scope :by_source, ->(source){ where(source: source) }
   scope :processed, -> { where state: State::PROCESSED }
-  default_scope ->{ order(created_at: :desc) }
+  default_scope ->{ order(id: :desc) }
 
   validate :unique_body, on: :create
 
@@ -13,7 +13,7 @@ class Entry < ActiveRecord::Base
   def self.query query, params={}
     page = params[:page].presence.try(:to_i) || 1
 
-    options = { with: {}, excerpts: { around: 250 }, order: 'fetched_at DESC', per_page: ENTRIES_PER_PAGE }
+    options = { with: {}, excerpts: { around: 250 }, order: 'id DESC', per_page: ENTRIES_PER_PAGE }
     options[:with][:state] = State::PROCESSED unless params[:skip_filter]
     if params[:date].present?
       date = Date.parse params[:date]
