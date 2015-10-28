@@ -6,8 +6,8 @@ class Process < Thor
   desc 'all', 'Process all stored entries'
   def all # TODO optimize: look in new entries only
     Search.active.each do |search|
-      ids = Entry.search_for_ids(search.pattern, order: 'fetched_at DESC', with: { state: State::RAW })
-      Entry.where(id: ids).update_all state: 1
+      ids = Entry.search_for_ids(search.pattern, order: 'fetched_at DESC', with: { state: State::RAW }, limit: 100)
+      Entry.where(id: ids).update_all state: State::PROCESSED
       logger.info "processing: '#{ search.pattern }' --- #{ ids.to_a.count } entries"
     end
     system "bundle exec rake ts:index"
