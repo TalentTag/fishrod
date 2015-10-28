@@ -4,24 +4,34 @@
     .medium-6.columns
       = f.text_field :name
     .medium-4.columns
+
   .row
-    .medium-2.columns Ключевые слова
+    .medium-2.columns Запрос
     .medium-6.columns
-      = f.text_area :query, rows: 5
+      = f.text_area :query, rows: 3
     .medium-4.columns
-      .info Ключевые слова и синонимы.
+      .info Базовый запрос к поисковому движку. Составляется на языке запросов Sphinx.
+
   .row
     .medium-2.columns Контекст
     .medium-6.columns
       = f.text_area :context, rows: 5
     .medium-4.columns
       .info Слова, уточняющие поиск; хотя бы одно из них должно встретиться в том же документе, что и ключевые; разделяются запятыми. Можно использовать "фразу в кавычках" для поиска точных форм.
+
   .row
     .medium-2.columns Стоп-слова
     .medium-6.columns
       = f.text_area :stopwords, rows: 5
     .medium-4.columns
       .info Слова, которые нужно исключить из поиска; разделяются запятыми. Можно использовать "фразу в кавычках" для исключения точных форм.
+
   .row
-    .medium-12.columns
+    .medium-offset-2.medium-6.columns
+      label
+        => f.check_box :active
+        | активен
+
+  .row
+    .medium-offset-2.medium-10.columns
       = f.submit 'Сохранить', class: 'tiny button'

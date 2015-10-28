@@ -1,7 +1,7 @@
 class SearchesController < ApplicationController
 
   def index
-    @searches = Search.all
+    @searches = Search.order(:id)
   end
 
   def create
@@ -23,7 +23,7 @@ class SearchesController < ApplicationController
   private
 
   def search_params
-    params.require(:search).permit(:name, :query, :context, :stopwords)
+    params.require(:search).permit(:name, :query, :context, :stopwords, :active)
   end
 
 end

@@ -4,13 +4,13 @@ class Process < Thor
 
 
   desc 'all', 'Process all stored entries'
-  def all
-  	logger.info 'processing: start'
-    # TODO optimize: look in new entries only
-    ids = Entry.search_for_ids('="ищу работу" | ="ищет работу" | ="ищу подработку" | ="ищет подработку"', order: 'fetched_at DESC', with: { state: State::RAW })
-    Entry.where(id: ids).update_all state: 1
+  def all # TODO optimize: look in new entries only
+    Search.active.each do |search|
+      ids = Entry.search_for_ids(search.pattern, order: 'fetched_at DESC', with: { state: State::RAW })
+      Entry.where(id: ids).update_all state: 1
+      logger.info "processing: '#{ search.pattern }' --- #{ ids.to_a.count } entries"
+    end
     system "bundle exec rake ts:index"
-    logger.info "processing: #{ ids.to_a.count } entries marked"
   end
 
 
