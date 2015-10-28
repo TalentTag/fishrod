@@ -1,0 +1,27 @@
+= form_for search, html: { class: 'search-form', role: "search-form" } do |f|
+  .row
+    .medium-2.columns Название
+    .medium-6.columns
+      = f.text_field :name
+    .medium-4.columns
+  .row
+    .medium-2.columns Ключевые слова
+    .medium-6.columns
+      = f.text_area :query, rows: 5
+    .medium-4.columns
+      .info Ключевые слова и синонимы.
+  .row
+    .medium-2.columns Контекст
+    .medium-6.columns
+      = f.text_area :context, rows: 5
+    .medium-4.columns
+      .info Слова, уточняющие поиск; хотя бы одно из них должно встретиться в том же документе, что и ключевые; разделяются запятыми. Можно использовать "фразу в кавычках" для поиска точных форм.
+  .row
+    .medium-2.columns Стоп-слова
+    .medium-6.columns
+      = f.text_area :stopwords, rows: 5
+    .medium-4.columns
+      .info Слова, которые нужно исключить из поиска; разделяются запятыми. Можно использовать "фразу в кавычках" для исключения точных форм.
+  .row
+    .medium-12.columns
+      = f.submit 'Сохранить', class: 'tiny button'
