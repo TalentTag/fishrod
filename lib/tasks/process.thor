@@ -4,7 +4,7 @@ class Process < Thor
 
 
   desc 'all', 'Process all stored entries'
-  def all # TODO optimize: look in new entries only
+  def all
     Search.active.each do |search|
       ids = Entry.search_for_ids(search.pattern, order: 'fetched_at DESC', with: { state: State::RAW }, limit: 100)
       Entry.where(id: ids).update_all state: State::PROCESSED

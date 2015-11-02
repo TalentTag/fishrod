@@ -4,7 +4,10 @@ class Search < ActiveRecord::Base
 
 
   def pattern
-    query # TODO utilize context & stopwords
+    pt = "(#{ query })"
+    pt = pt + " (#{ context.split(',').map(&:strip).join(' | ') })" if context.present?
+    pt = pt + ' ' + stopwords.split(',').map {|sw| "!(#{ sw.strip })" }.join(' ') if stopwords.present?
+    pt
   end
 
   def name
