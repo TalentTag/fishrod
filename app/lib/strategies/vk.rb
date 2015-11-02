@@ -1,8 +1,11 @@
 class Strategies::Vk
 
+  ENTRIES_TO_FETCH_LIMIT = 500
+
   def self.fetch
     client = VkontakteApi::Client.new
-    entries = client.newsfeed.search(q: 'ищу работу', extended: 1)[1..-1]
+    saved_entries = []
+    entries = client.newsfeed.search(q: 'ищу работу', extended: 1, count: ENTRIES_TO_FETCH_LIMIT)[1..-1]
     entries.each do |hash|
       entry = Entry.new({
         body: hash.text,
@@ -13,8 +16,9 @@ class Strategies::Vk
         fetched_at: Time.now,
         raw_data: hash
       })
-      entry.save # TODO validate
+      saved_entries << entry if entry.save
     end
+    saved_entries
   end
 
 end
