@@ -8,7 +8,7 @@ h1
   - if all_entries.any?
     .row
       .large-3.columns
-        h4 style="margin-top: 0" = Date::MONTHNAMES[month.to_i]
+        h4 style="margin-top: 0" = Russian::t('date.standalone_month_names')[month.to_i]
         ' Релевантных:
         = rec = relevant_entries.reduce(0) { |sum, entry| sum+entry['count'].to_i }
         br
@@ -22,8 +22,9 @@ h1
             th width="40%" Релевантных
             th width="40%" Всего
           - (1..Time.days_in_month(month, 2015)).each do |day|
-            - ae = all_entries.select { |entry| entry['date'] == "2015-#{ month }-#{ day }" }.first || {}
-            - re = relevant_entries.select { |entry| entry['date'] == "2015-#{ month }-#{ day }" }.first || {}
+            - current_day = "2015-#{ "%02d" % month }-#{ "%02d" % day }"
+            - ae = all_entries.select { |entry| entry['date'] == current_day }.first || {}
+            - re = relevant_entries.select { |entry| entry['date'] == current_day }.first || {}
             - if ae.present?
               tr
                 td = Date.parse("2015-#{ month }-#{ day }").strftime('%d-%m-%Y')
