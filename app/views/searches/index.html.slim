@@ -7,7 +7,9 @@ h1 Объекты поиска
         h3 = index+1
       .medium-10.columns
         h5: a role="search-form-toggle" href="javascript:;" = search.name
-        .info = search.query[0..100]
+        .info
+          ' Искать
+          = link_to search.pattern[0..100], entries_path(search: search.id), target: 'blank'
       .medium-1.columns
         h3 style="float:right" = link_to '&times;'.html_safe, search_path(search), method: 'delete', data: { confirm: 'Удалить?' }
     = render partial: 'partials/search_form', locals: { search: search }
